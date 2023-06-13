@@ -9,9 +9,9 @@ import numpy as np
 
 
 class Evaluator:
-    def __init__(self, ddpm: DDPM, loader_valid: DataLoader):
+    def __init__(self, ddpm: DDPM, valid_loader: DataLoader):
         self.ddpm = ddpm
-        self.dataloader = loader_valid
+        self.dataloader = valid_loader
 
     def sample_batch(self, device=torch.device("cpu")):
         print(f"Generating a batch of {self.dataloader.batch_size} samples.")
