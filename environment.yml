@@ -15,5 +15,5 @@ dependencies:
   - pytorch-cuda=11.7
   - pytorch-scatter
   - tqdm
-  - pyg=2.1.0
+  - pyg
   - imageio
