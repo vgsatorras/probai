@@ -72,16 +72,16 @@ class DDPM(torch.nn.Module):
 
     def _q_mean(
         self,
-        z: torch.FloatTensor,
-        t: torch.LongTensor,
+        z: torch.FloatTensor, # shape [N, dims] # N being the number of samples in the toy set or num_samples*num_atoms in molecules
+        t: torch.LongTensor, # shape [N]
     ) -> torch.FloatTensor:
         # mean of the distribution q(z_t | z_0)
         raise NotImplementedError
 
     def _q_std(
         self,
-        z: torch.FloatTensor,
-        t: torch.LongTensor,
+        z: torch.FloatTensor, # shape [N, dims] # N being the number of samples in the toy set or num_samples*num_atoms in molecules
+        t: torch.LongTensor, # shape [N]
     ) -> torch.FloatTensor:
         # std of the distribution q(z_t | z_0)
         raise NotImplementedError
