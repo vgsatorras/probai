@@ -72,7 +72,7 @@ class DDPM(torch.nn.Module):
 
     def _q_mean(
         self,
-        z: torch.FloatTensor, # shape [N, dims] # N being the number of samples in the toy set or num_samples*num_atoms in molecules
+        z: torch.FloatTensor, # shape [N, dims] # N being num_samples*num_nodes (num_nodes=1 for the toy dataset)
         t: torch.LongTensor, # shape [N]
     ) -> torch.FloatTensor:
         # mean of the distribution q(z_t | z_0)
@@ -80,7 +80,7 @@ class DDPM(torch.nn.Module):
 
     def _q_std(
         self,
-        z: torch.FloatTensor, # shape [N, dims] # N being the number of samples in the toy set or num_samples*num_atoms in molecules
+        z: torch.FloatTensor, # shape [N, dims] 
         t: torch.LongTensor, # shape [N]
     ) -> torch.FloatTensor:
         # std of the distribution q(z_t | z_0)
@@ -110,11 +110,11 @@ class DDPM(torch.nn.Module):
 
     def losses(
         self,
-        x: torch.FloatTensor,
-        batch: Optional[torch.LongTensor],
-        h: Optional[torch.FloatTensor] = None,
+        x: torch.FloatTensor, # shape [N, 3] Where N is num_samples*num_nodes (num_nodes = 1 for toy dataset)
+        batch: Optional[torch.LongTensor], # shape [N]
+        h: Optional[torch.FloatTensor] = None, # shape [N, 5] (this is None for the toy dataset)
         context: Optional[torch.FloatTensor] = None,
-        edge_index: Optional[torch.LongTensor] = None,
+        edge_index: Optional[torch.LongTensor] = None, # shape [2, num_edges]
     ) -> torch.FloatTensor:
         """Compute the uniformly weighted DDPM loss for a batch of samples.
 
@@ -132,7 +132,8 @@ class DDPM(torch.nn.Module):
         """        
         # In case we also have diffuse/denoise h, we concatenate it to x
         if h is not None:
-            z = torch.concatenate([x, h], dim=-1)
+            # z will be the concatenation of both x and h.
+            raise NotImplementedError
         else:
             z = x
 
@@ -201,19 +202,19 @@ class DDPM(torch.nn.Module):
 
     def _p_mean(
         self,
-        z: torch.FloatTensor,
-        t: torch.LongTensor,
-        edge_index: Optional[torch.LongTensor] = None,
-        batch: Optional[torch.LongTensor] = None,
-        context: Optional[torch.FloatTensor] = None,
+        z: torch.FloatTensor, # shape [N, dims]
+        t: torch.LongTensor, # shape [N]
+        edge_index: Optional[torch.LongTensor] = None, # shape [2, num_edges]
+        batch: Optional[torch.LongTensor] = None, # shape [N]
+        context: Optional[torch.FloatTensor] = None, 
     ) -> torch.FloatTensor:
         # mean of the distribution p(z_{t-1} | z_t)
         raise NotImplementedError
 
     def _p_std(
         self,
-        z: torch.FloatTensor,
-        t: torch.LongTensor,
+        z: torch.FloatTensor, # shape [N, dims]
+        t: torch.LongTensor, # shape [N]
     ) -> torch.FloatTensor:
         # std of the distribution p(z_{t-1} | z_t)
         raise NotImplementedError
