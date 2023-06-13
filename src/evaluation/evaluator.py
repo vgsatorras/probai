@@ -74,7 +74,6 @@ def eval_plot(
     sphered_3d=True,
 ):
     # Plot a
-    h = torch.argmax(h, dim=1)
     for idx in range(len(ptr) - 1):
         p1, p2 = ptr[idx], ptr[idx + 1]
         x_sample = x[p1:p2]
