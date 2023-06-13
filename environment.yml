@@ -15,5 +15,5 @@ dependencies:
   - pytorch-cuda=11.7
   - pytorch-scatter
   - tqdm
-  - torch-geometric=2.3.1
-  - imageio=2.31.0
+  - torch_geometric=2.3.1
+  - imageio
